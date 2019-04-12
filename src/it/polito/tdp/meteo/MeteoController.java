@@ -1,6 +1,8 @@
 package it.polito.tdp.meteo;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -11,6 +13,9 @@ import javafx.scene.control.TextArea;
 
 public class MeteoController {
 
+	private Model model;
+	
+	
 	@FXML
 	private ResourceBundle resources;
 
@@ -18,7 +23,7 @@ public class MeteoController {
 	private URL location;
 
 	@FXML
-	private ChoiceBox<?> boxMese;
+	private ChoiceBox<Integer> boxMese;
 
 	@FXML
 	private Button btnCalcola;
@@ -29,15 +34,33 @@ public class MeteoController {
 	@FXML
 	private TextArea txtResult;
 
-	@FXML
-	void doCalcolaSequenza(ActionEvent event) {
-
-	}
-
+	
+	/*
+	 * Esercizio 1: l'utente seleziona un mese dal boxMesi e il  metodo deve restituire
+	 * il valore dell'umidità media per quel mese inn ciascuna delle città preenti nel db
+	 * Quindi deve stampare nella txtResult un valore a testa per Torino-Genova e Milano
+	 * 
+	 */
 	@FXML
 	void doCalcolaUmidita(ActionEvent event) {
-
+		//Pulisco la view
+		txtResult.clear();
+		
+		txtResult.appendText(model.getUmiditaMedia(boxMese.getValue()));
+		
 	}
+	
+	@FXML
+	void doCalcolaSequenza(ActionEvent event) {
+		//Pulisco la view
+		txtResult.clear();
+		
+		txtResult.appendText(model.trovaSequenza(boxMese.getValue()));
+
+		
+	}
+
+
 
 	@FXML
 	void initialize() {
@@ -45,6 +68,15 @@ public class MeteoController {
 		assert btnCalcola != null : "fx:id=\"btnCalcola\" was not injected: check your FXML file 'Meteo.fxml'.";
 		assert btnUmidita != null : "fx:id=\"btnUmidita\" was not injected: check your FXML file 'Meteo.fxml'.";
 		assert txtResult != null : "fx:id=\"txtResult\" was not injected: check your FXML file 'Meteo.fxml'.";
+	}
+
+	public void setModel(Model model) {
+		// TODO Auto-generated method stub
+		this.model=model;
+		for(int i=1; i<=12; i++) {
+			boxMese.getItems().add(i);
+		}
+		
 	}
 
 }
